@@ -1,0 +1,40 @@
+server:
+  port: 8600 #端口号
+
+spring:
+  application:
+    name: config-server  #服务名称
+  cloud:
+    config:
+      server:
+        git:
+          # 仓库地址
+          uri: https://github.com/wdg007/spring-colud-config
+          # 仓库文件夹名称，多个以逗号分隔
+#          search-paths: config-file
+          # git 仓库用户名（公开库可以不用填写）
+          username:
+          # git 仓库密码（公开库可以不用填写）
+          password:
+          # 对应 {label} 部分，即 Git 的分支
+          default-label: main
+  rabbitmq:
+    host: localhost  #rabbitmq主机
+    port: 5672       #rabbitmq端口。注意是5672而不是15672
+    username: guest  #用户名
+    password: guest  #密码
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8300/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh  #指定刷新地址
